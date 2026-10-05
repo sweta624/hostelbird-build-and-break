@@ -1,12 +1,17 @@
 # hostelbird-build-and-break
 Product audit, UX bug analysis, and production code fixes for the Hostelbird mobile app
+**Submitted by:** Sweta Yadav  
+
+---
+
 1. Unhandled OTP Timeout Exception
-
+  
    Problem: Requesting an OTP displays a raw backend stack trace (Exception: Error exception OTP... TimeoutException after 0:00:15...).
-
+   
    Impact: Exposing internal unhandled exceptions damages user trust and signals weak error handling during onboarding.
-
+   
    Solution: Intercept API timeout exceptions and display a clean, user-friendly alert banner.
+   '''dart
    // Flutter: AuthRepository OTP Exception Handler
 Future<void> verifyOtp(String phone, String otp) async {
   try {
@@ -21,7 +26,6 @@ Future<void> verifyOtp(String phone, String otp) async {
     );
   }
 }
-
 2. Mandatory Authentication Gate
 
     Problem: Users are forced to log in and provide personal details before browsing stays or searching destinations.
@@ -29,6 +33,7 @@ Future<void> verifyOtp(String phone, String otp) async {
     Impact: Causes high top-of-funnel drop-off for casual users who want to explore inventory before signing up.
 
     Solution: Add a "Skip / Guest Mode" bypass option on the login screen, prompting authentication only at checkout.
+'''dart
    // Flutter: Guest Mode Session Bypass
 Widget buildAuthHeader(BuildContext context) {
   return Align(
@@ -49,6 +54,7 @@ Widget buildAuthHeader(BuildContext context) {
     Impact: Violates standard touch UI patterns where input rows are expected to be directly interactive.
 
     Solution: Attach explicit tap event listeners across full row container elements.
+   '''dart
    // React Native: Direct Tap Target Wrappers
 const SearchForm = () => (
   <View style={styles.container}>
@@ -61,16 +67,17 @@ const SearchForm = () => (
       <Text>Select dates</Text>
     </TouchableOpacity>
   </View>
-);
-4. Bottom Navigation Bar Content Occlusion
-
-   Problem: On the "Choose your rooms" view, price breakdowns, taxes, and secondary action buttons are hidden behind the native device
+  );
+  4. Bottom Navigation Bar Content Occlusion
+    
+     Problem: On the "Choose your rooms" view, price breakdowns, taxes, and secondary action buttons are hidden behind the native device
      navigation bar.
 
-   Impact: Prevents users from verifying final pricing or tapping checkout controls cleanly.
+     Impact: Prevents users from verifying final pricing or tapping checkout controls cleanly.
 
-   Solution: Wrap sticky checkout bars in a SafeArea component to respect native window insets.
-   // Flutter: SafeArea Layout Fix for Sticky Checkout
+     Solution: Wrap sticky checkout bars in a SafeArea component to respect native window insets.
+'''dart
+     // Flutter: SafeArea Layout Fix for Sticky Checkout
 Widget buildCheckoutFooter(BuildContext context) {
   return SafeArea(
     top: false,
@@ -83,7 +90,7 @@ Widget buildCheckoutFooter(BuildContext context) {
           ElevatedButton(
             onPressed: () => navigateToCheckout(),
             child: const Text("CHECKOUT →"),
-    ),
+          ),
         ],
       ),
     ),
@@ -96,6 +103,7 @@ Widget buildCheckoutFooter(BuildContext context) {
     Impact: Leaves travelers stranded with no direct communication or support route.
 
     Solution: Implement a graceful fallback screen directing users to WhatsApp support when chat servers fail.
+'''dart
    // Flutter: Offline / Error Fallback State
 Widget buildMessagesScreen() {
   return Center(
@@ -115,3 +123,5 @@ Widget buildMessagesScreen() {
     ),
   );
 }
+
+       
