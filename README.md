@@ -18,7 +18,7 @@ Future<void> verifyOtp(String phone, String otp) async {
     );
   }
 }
-3. Mandatory Authentication Gate
+2. Mandatory Authentication Gate
 
     Problem: Users are forced to log in and provide personal details before browsing stays or searching destinations.
 
@@ -38,7 +38,7 @@ Widget buildAuthHeader(BuildContext context) {
     ),
   );
 }
-4. Unresponsive Search Input Rows
+3. Unresponsive Search Input Rows
 
     Problem: Tapping "Select Destination" or "Travellers" does nothing until the bottom "Next" button is clicked.
 
@@ -58,7 +58,11 @@ const SearchForm = () => (
     </TouchableOpacity>
   </View>
 );
-5. Bottom Navigation Bar Content OcclusionProblem: On the "Choose your rooms" view, price breakdowns, taxes, and secondary action buttons are hidden behind the native device navigation bar.   Impact: Prevents users from verifying final pricing or tapping checkout controls cleanly.   Solution: Wrap sticky checkout bars in a SafeArea component to respect native window insets.
+4. Bottom Navigation Bar Content Occlusion
+   Problem: On the "Choose your rooms" view, price breakdowns, taxes, and secondary action buttons are hidden behind the native device
+     navigation bar.
+   Impact: Prevents users from verifying final pricing or tapping checkout controls cleanly.
+   Solution: Wrap sticky checkout bars in a SafeArea component to respect native window insets.
    // Flutter: SafeArea Layout Fix for Sticky Checkout
 Widget buildCheckoutFooter(BuildContext context) {
   return SafeArea(
@@ -78,7 +82,7 @@ Widget buildCheckoutFooter(BuildContext context) {
     ),
   );
 }
-6. Messaging Service Fallback Handling
+5. Messaging Service Fallback Handling
 
     Problem: Tapping the messaging tab triggers generic system errors when backend sockets disconnect or degrade.
 
