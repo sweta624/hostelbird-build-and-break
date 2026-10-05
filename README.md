@@ -1,8 +1,11 @@
 # hostelbird-build-and-break
 Product audit, UX bug analysis, and production code fixes for the Hostelbird mobile app
 1. Unhandled OTP Timeout Exception
+
    Problem: Requesting an OTP displays a raw backend stack trace (Exception: Error exception OTP... TimeoutException after 0:00:15...).
+
    Impact: Exposing internal unhandled exceptions damages user trust and signals weak error handling during onboarding.
+
    Solution: Intercept API timeout exceptions and display a clean, user-friendly alert banner.
    // Flutter: AuthRepository OTP Exception Handler
 Future<void> verifyOtp(String phone, String otp) async {
@@ -18,6 +21,7 @@ Future<void> verifyOtp(String phone, String otp) async {
     );
   }
 }
+
 2. Mandatory Authentication Gate
 
     Problem: Users are forced to log in and provide personal details before browsing stays or searching destinations.
@@ -59,9 +63,12 @@ const SearchForm = () => (
   </View>
 );
 4. Bottom Navigation Bar Content Occlusion
+
    Problem: On the "Choose your rooms" view, price breakdowns, taxes, and secondary action buttons are hidden behind the native device
      navigation bar.
+
    Impact: Prevents users from verifying final pricing or tapping checkout controls cleanly.
+
    Solution: Wrap sticky checkout bars in a SafeArea component to respect native window insets.
    // Flutter: SafeArea Layout Fix for Sticky Checkout
 Widget buildCheckoutFooter(BuildContext context) {
